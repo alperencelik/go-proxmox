@@ -141,6 +141,21 @@ func (n *Node) NewContainer(ctx context.Context, vmid int, options ...ContainerO
 	return NewTask(upid, n.client), err
 }
 
+func (n *Node) Tasks(ctx context.Context, taskFilter *TaskFilter) (tasks Tasks, err error) {
+
+	err = n.client.GetWithParams(ctx, fmt.Sprintf("/nodes/%s/tasks", n.Name), taskFilter, &tasks)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, t := range tasks {
+		t.client = n.client
+	}
+
+	return tasks, nil
+
+}
+
 func (n *Node) Appliances(ctx context.Context) (appliances Appliances, err error) {
 	err = n.client.Get(ctx, fmt.Sprintf("/nodes/%s/aplinfo", n.Name), &appliances)
 	if err != nil {

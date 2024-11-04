@@ -616,6 +616,19 @@ type Task struct {
 	Duration     time.Duration `json:"-"`
 }
 
+type TaskFilter struct {
+	Errors       IntOrBool `json:"errors,omitempty"`
+	Limit        int       `json:"limit,omitempty"`
+	Since        int       `json:"since,omitempty"`
+	Source       string    `json:"source,omitempty"`
+	Start        int       `json:"start,omitempty"`
+	StatusFilter string    `json:"status,omitempty"`
+	TypeFilter   string    `json:"type,omitempty"`
+	Until        int       `json:"until,omitempty"`
+	UserFilter   string    `json:"user,omitempty"`
+	VmID         int       `json:"vmid,omitempty"`
+}
+
 func (t *Task) UnmarshalJSON(b []byte) error {
 	var tmp map[string]interface{}
 	if err := json.Unmarshal(b, &tmp); err != nil {
