@@ -676,7 +676,10 @@ func (v *VirtualMachine) UnmountCloudInitISO(ctx context.Context, device string)
 	return nil
 }
 
-func (v *VirtualMachine) Pending(ctx context.Context) (pending *PendingConfiguration, err error) {
-	err = v.client.Get(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/pending", v.Node, v.VMID), &pending)
+func (v *VirtualMachine) Pending(ctx context.Context) (pendingConfiguration *PendingConfiguration, err error) {
+	err = v.client.Get(ctx, fmt.Sprintf("/nodes/%s/qemu/%d/pending", v.Node, v.VMID), &pendingConfiguration)
+	if err != nil {
+		return nil, err
+	}
 	return
 }
